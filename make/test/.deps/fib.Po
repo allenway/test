@@ -1,0 +1,3 @@
+fib.o: fib.c fib.h
+
+fib.h:

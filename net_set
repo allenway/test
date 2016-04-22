@@ -1,0 +1,29 @@
+#!/bin/sh
+
+if [ -f ./net.conf ] ; then
+    . ./net.conf
+    if [ -z "$PISC" ]; then
+        PISC=192.168.101.1
+        echo "PISC=${PISC}" >> ./net.conf
+    fi 
+    while getopts "p:" arg
+    do
+        case $arg in
+        p)
+            PISC=${OPTARG}
+            sed -i "s/PISC=.*/PISC=${PISC}/g" ./net.conf
+            ;;
+        ?)
+            echo "unkonw argument"
+            ;;
+        esac
+    done
+    arr1=`echo $PISC | cut -d"." -f1`
+    arr2=`echo $PISC | cut -d"." -f2`
+    arr3=`echo $PISC | cut -d"." -f3`
+    arr4=`echo $PISC | cut -d"." -f4`
+    arr4=$(expr ${arr4} + 3)
+    IP=${arr1}.${arr2}.${arr3}.${arr4}
+    echo PISC:$PISC
+    echo IP:$IP
+fi
